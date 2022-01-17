@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<!--Encoding-->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<!--Title-->
+	<title>Status Bot</title>
+	<!--Meta Tags-->
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="theme-color" content="#000000">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+	<!--Fonts-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+	<!--Styles-->
+	<link rel="stylesheet" href="css/main-style.min.css">
+</head>
+<!--Main Content-->
+
+<body>
+	<main class="main">
+		<div class="container">
+			<div class="main__body" id="app">
+				<!-- {{getAllApps()}} вызов AJAX запроса -->
+				<ul class="app__list">
+					<li class="app__item" :class="{app__second:((app.myid + 1) % 2 == 0) ? true : false}"
+						v-for="app in apps">
+						<span class="app__name">{{app.name}}{{statusApp()}}</span>
+						<span class="app__status" :class="app.class">{{ app.text }}</span>
+						<span class="app__bundle">{{app.bandle}}</span>
+						<span class="app__edit"><a @click="popupMenu(app.myid)">&#9998;</a></span>
+					</li>
+				</ul>
+				<div class="popup" v-if="popupStatus">
+					<span class="popup__close" @click="popupClose">&#10006;</span>
+					<div class="popup__box">
+						<p class="popup__item">
+							<label for="popup-name">Название</label>
+							<input type="text" id="popup-name" class="popup__input" placeholder="Name"
+								:value="appSelected.name">
+						</p>
+						<p class="popup__item">
+							<label for="popup-bandle">Bandle</label>
+							<input type="text" id="popup-bandle" class="popup__input" placeholder="Bandle"
+								:value="appSelected.bandle">
+						</p>
+					</div>
+					<div class="popup__box">
+						<p class="popup__item">
+							<label for="popup-fb">FB App Id</label>
+							<input type="text" id="popup-fb" class="popup__input" placeholder="FB app ID"
+								:value="appSelected.fb_id">
+						</p>
+						<p class="popup__item">
+							<label for="popup-as">AppsFlyer Key</label>
+							<input type="text" id="popup-as" class="popup__input" placeholder="AppsFlyer Key"
+								:value="appSelected.aid">
+						</p>
+					</div>
+					<div class="popup__box">
+						<p class="popup__item">
+							<label for="popup-kt">Keitaro Name</label>
+							<input type="text" id="popup-kt" class="popup__input" placeholder="Keitaro Name">
+						</p>
+						<p class="popup__item">
+							<label for="popup-msg">blockMsg</label>
+							<select id="popup-msg" class="popup__input" v-model="appSelected.block_msg">
+								<option value="0">0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</p>
+						<p class="popup__item">
+							<label for="popup-status">Статус</label>
+							<select id="popup-status" class="popup__input" v-model="appSelected.bot">
+								<option value="0">0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</p>
+					</div>
+					<div class="popup__box popup__last">
+						<button class="app__save" @click="sendApp">Сохранить</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script src="js/vue.min.js"></script>
+	<script src="js/script.min.js"></script>
+</body>
+
+</html>
